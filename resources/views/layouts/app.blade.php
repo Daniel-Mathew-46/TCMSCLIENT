@@ -50,8 +50,9 @@
                             @endif
                         @else --}}
                             <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Utility Providers</a></li>
-                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Provider Categories</a></li>
-                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Debts</a></li>
+                            {{-- <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Provider Categories</a></li> --}}
+                            <li><a class="nav-link" href="{{ route('tariffs.index') }}">Manage Tariffs</a></li>
+                            {{-- <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Debts</a></li> --}}
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{-- {{ Auth::user()->name }} --}}

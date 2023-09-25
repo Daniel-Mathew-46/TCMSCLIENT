@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Client\UtilityProvider;
+namespace App\Http\Controllers\Client\Tariffs;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 
-class ManageUtilityProviderController extends Controller
+class ManageTariffsController extends Controller
 {
 
     /**
@@ -19,17 +19,17 @@ class ManageUtilityProviderController extends Controller
     public function index(Request $request): View
     {
 
-        $providers = [];
+        $tariffs = [];
 
         try {
 
-            $providers = Http::post('http://localhost:8000/api/utilityProviders')['providers'];
-            Log::info("Providers Message::" . json_encode($providers));
+            $tariffs = Http::post('http://localhost:8000/api/tariffs')['tariffs'];
+            Log::info("Tarrifs Message::" . json_encode($tariffs));
         } catch (\Exception $e) {
-            log::channel('daily')->info("UtilityProviderException:" . $e->getMessage());
+            log::channel('daily')->info("Tariffs Exception:" . $e->getMessage());
         }
 
-        return view('utility_provider.index', compact('providers'))
+        return view('tariffs.index', compact('tariffs'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -42,14 +42,7 @@ class ManageUtilityProviderController extends Controller
     {
         $providerCategories = [];
 
-        try {
-
-            $providerCategories = Http::post('http://localhost:8000/api/listsProviderCategories')['providerCategories'];
-            Log::info("Provider Categories::" . json_encode($providerCategories));
-        } catch (\Exception $e) {
-            Log::info("Provider Categories Exception:" . $e->getMessage());
-        }
-        return view('utility_provider.create', compact('providerCategories'));
+        return view('tariffs.create');
     }
 
     /**
@@ -61,33 +54,33 @@ class ManageUtilityProviderController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'provider_name' => 'required',
-            'provider_code' => 'required',
-            'provider_status' => 'required',
-            "provider_categories_id" => 'required'
+            'name' => 'required',
+            'code' => 'required',
+            'percentageAmount' => 'required',
+            "value" => 'required'
         ]);
 
         Log::info("Inputs::" . json_encode($request->all()));
 
         $inputs = [
-            'provider_name' => $request->input('provider_name'),
-            'provider_code' => $request->input('provider_code'),
-            'provider_status' => $request->input('provider_status'),
-            "provider_categories_id" => $request->input('provider_categories_id')
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
+            'percentageAmount' => $request->input('percentageAmount'),
+            "value" => $request->input('value')
         ];
 
-        $successStatus = 'Failed to create utility service provider';
+        $successStatus = 'Failed to create tariff';
 
         try {
-            $message = Http::post('http://localhost:8000/api/utilityProvider', $inputs)['message'];
-            Log::info("Utility Provider response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully created utility service provider!';
+            $message = Http::post('http://localhost:8000/api/tariff', $inputs)['message'];
+            Log::info("Tariff response message::" . json_encode($message));
+            if ($message[0] == 'OK') $successStatus = 'Successfully created tariff!';
             else $successStatus = $message[0];
         } catch (\Exception $e) {
-            Log::info("Utility Provider Register Exception:" . $e->getMessage());
+            Log::info("Tariff Register Exception:" . $e->getMessage());
         }
 
-        return redirect()->route('utility_providers.index')->with('success', $successStatus);
+        return redirect()->route('tariffs.index')->with('success', $successStatus);
     }
 
     /**
@@ -96,23 +89,23 @@ class ManageUtilityProviderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $providerCode)
+    public function show(Request $request, $tariffId)
     {
         // $providerCode = $request->input('providerCode');
 
-        $utilityProvider = ['Something went wrong'];
+        $tariff = ['Something went wrong'];
 
-        Log::info("Parameter::" . $providerCode);
+        Log::info("Parameter::" . $tariffId);
 
         try {
 
-            $utilityProvider = Http::post('http://localhost:8000/api/providerByCode', ['providerCode' => $providerCode])['Utility Provider'];
+            $tariff = Http::post('http://localhost:8000/api/tariffById', ['id' => $tariffId])['Tariff'];
 
-            Log::info("Utility Provider response message::" . json_encode($utilityProvider));
+            Log::info("Utility Provider response message::" . json_encode($tariff));
         } catch (\Exception $e) {
             Log::info("Utility Provider Show Exception:" . $e->getMessage());
         }
-        return view('utility_provider.show', compact('utilityProvider'));
+        return view('tariffs.show', compact('tariff'));
     }
 
     /**
@@ -163,3 +156,4 @@ class ManageUtilityProviderController extends Controller
         //     ->with('success', 'User updated successfully');
     }
 }
+

@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Utility Providers Management</h2>
+            <h2>Tariffs Management</h2>
         </div>
         <div class="pull-right mb-4">
-            <a class="btn btn-success" href="{{ route('utility_providers.create') }}"> Create New Utility Provider</a>
+            <a class="btn btn-success" href="{{ route('tariffs.create') }}"> Create New Tariff</a>
         </div>
     </div>
 </div>
@@ -21,17 +21,19 @@
 <table class="table table-bordered ">
  <tr>
    <th>No</th>
-   <th>Provider Name</th>
-   <th>Provider Code</th>
-   <th>Provider Status</th>
+   <th>Tariff Name</th>
+   <th>Tariff Code</th>
+   <th>Tariff PercentageAmount</th>
+   <th>Tariff Value</th>
    <th width="280px">Action</th>
  </tr>
- @foreach ($providers as $key => $provider)
+ @foreach ($tariffs as $key => $tariff)
   <tr>
     <td>{{ ++$i }}</td>
-    <td>{{ $provider['provider_name'] }}</td>
-    <td>{{ $provider['provider_code'] }}</td>
-    <td>{{ $provider['provider_status'] }}</td>
+    <td>{{ $tariff['name'] }}</td>
+    <td>{{ $tariff['code'] }}</td>
+    <td>{{ $tariff['percentageAmount'] }}</td>
+    <td>{{ $tariff['value'] }}</td>
     {{-- <td>
       @if(!empty($user->getRoleNames()))
         @foreach($user->getRoleNames() as $v)
@@ -40,8 +42,7 @@
       @endif
     </td> --}}
     <td>
-       <a class="btn btn-info" href="{{ route('utility_providers.show', $provider['provider_code']) }}">Show</a>
-       {{-- <a class="btn btn-primary" href="{{ route('utility_providers.edit', $provider['id']) }}">Edit</a> --}}
+       <a class="btn btn-info" href="{{ route('tariffs.show', $tariff['id']) }}">Show</a>
         {{-- {!! Form::open(['method' => 'DELETE','route' => ['provider.destroy', $provider->id],'style'=>'display:inline']) !!}
             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
         {!! Form::close() !!} --}}
