@@ -19,7 +19,7 @@ use App\Http\Controllers\Client\Tariffs\ManageTariffsController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('layouts.test');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -36,3 +36,7 @@ Route::group([], function () {
 });
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
