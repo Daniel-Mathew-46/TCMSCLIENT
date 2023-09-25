@@ -18,7 +18,7 @@ use App\Http\Controllers\Client\UtilityProvider\ManageUtilityProviderController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('layouts.test');
 });
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -36,3 +36,7 @@ Route::group([], function () {
 // Route::get('/manage_tokens', [RegisterController::class, 'index'])->name('manage_tokens');
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
