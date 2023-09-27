@@ -37,7 +37,6 @@ Auth::routes();
 Route::group([], function () {
     // Route::resource('roles', RoleController::class);
     Route::resource('utility_providers', ManageUtilityProviderController::class);
-    Route::resource('`oviders', ManageUtilityProviderController::class);
     Route::resource('provider_category', RegisterController::class);
     Route::resource('tariffs', ManageTariffsController::class);
     Route::resource('customers', ManageCustomersController::class);
