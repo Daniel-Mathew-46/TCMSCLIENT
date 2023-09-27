@@ -21,7 +21,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Token and Customer Management System
+                    Customer Management
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -49,9 +49,10 @@
                                 </li>
                             @endif
                         @else --}}
-                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Utility Providers</a></li>
-                            <li><a class="nav-link" href="{{ route('users.index') }}">Manage UP Users</a></li>
-                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Provider Categories</a></li>
+                            <li><a class="nav-link" href="{{ route('customers.index') }}">Customers</a></li>
+                            <li><a class="nav-link" href="{{ route('tariffs.index') }}">Tariffs</a></li>
+                            <li><a class="nav-link" href="{{ route('create_customer_payment') }}">Utility Payments</a></li>
+                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Debts</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{-- {{ Auth::user()->name }} --}}

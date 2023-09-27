@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.customer')
 
 @section('content')
 <div class="row">
@@ -34,23 +34,11 @@
     <td>{{ $tariff['code'] }}</td>
     <td>{{ $tariff['percentageAmount'] }}</td>
     <td>{{ $tariff['value'] }}</td>
-    {{-- <td>
-      @if(!empty($user->getRoleNames()))
-        @foreach($user->getRoleNames() as $v)
-           <label class="badge badge-success">{{ $v }}</label>
-        @endforeach
-      @endif
-    </td> --}}
     <td>
-       <a class="btn btn-info" href="{{ route('tariffs.show', $tariff['id']) }}">Show</a>
-        {{-- {!! Form::open(['method' => 'DELETE','route' => ['provider.destroy', $provider->id],'style'=>'display:inline']) !!}
-            {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
-        {!! Form::close() !!} --}}
+      <a class="btn btn-info" href="{{ route('tariffs.show', $tariff['id']) }}">Show</a>
     </td>
   </tr>
  @endforeach
 </table>
-
-{{-- {!! $data->render() !!} --}}
 
 @endsection

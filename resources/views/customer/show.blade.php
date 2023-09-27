@@ -1,41 +1,47 @@
-@extends('layouts.customer')
+@extends('layouts.app')
 
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2> Show Tariff</h2>
+            <h2> Show Customer Information</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('tariffs.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('customers.index') }}"> Back</a>
         </div>
     </div>
 </div>
 
-@if (gettype($tariff) !== 'object')
+@if (gettype($customer) == 'array')
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Tariff Name:</strong>
-                {{ $tariff['name'] }}
+                <strong>Customer Name:</strong>
+                {{ $customer['name'] }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Tariff Code:</strong>
-                {{ $tariff['code'] }}
+                <strong>Customer Mobile No:</strong>
+                {{ $customer['mobile'] }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Tariff Percentage Amount:</strong>
-                {{ $tariff['percentageAmount']  }}
+                <strong>Utility Provider:</strong>
+                {{ $customer['utilityProvider']  }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Tariff Value:</strong>
-                {{ $tariff['value']  }}
+                <strong>Customer Meter Number:</strong>
+                {{ $customer['meterNumber']  }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Customer Address:</strong>
+                {{ $customer['address']  }}
             </div>
         </div>
     </div>
@@ -43,7 +49,7 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>{{ $tariff[0]}}</strong>
+                <strong>{{ $customer[0]}}</strong>
             </div>
         </div>
     </div>
