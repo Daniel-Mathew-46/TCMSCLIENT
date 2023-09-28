@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
         //     'email' => "landonfx@gmail.com",
         //     'password' => Hash::make("landon123")
         // ]);
-        $this->call(PermissionTableSeeder::class);
+        // $this->call(PermissionTableSeeder::class);
     }
 }

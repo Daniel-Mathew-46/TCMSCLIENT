@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Client\Users;
 
-use DB;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -38,17 +38,9 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        //utility providers
-        $providers = [];
-
-        try {
-            $providers = Http::post('http://localhost:8000/api/utilityProviders')['providers'];
-            Log::info("Providers Message::" . json_encode($providers));
-        } catch (\Exception $e) {
-            log::channel('daily')->info("UtilityProviderException:" . $e->getMessage());
-        }
+        
         $roles = Role::pluck('name', 'name')->all();
-        return view('users.create', compact('roles', 'providers'));
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -62,30 +54,26 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'phone_number' => 'required|min:10|max:11',
             'password' => 'required|same:confirm-password',
-            'utility_provider_id' => 'required',
+            'confirm-password' => 'required',
             'roles' => 'required'
         ]);
-
-        // $input = $request->all();
-        // $input['password'] = Hash::make($input['password']);
-
-        // $user = User::create($input);
-        // $user->assignRole($request->input('roles'));
-        Log::info("Inputs::" . json_encode($request->all()));
 
         $inputs = [
             'full_name' => $request->input('name'),
             'email' => $request->input('email'),
-            'password' => $request->input('password'),
-            'utility_provider_id' => $request->input('utility_provider_id'),
+            'phone_number' => $request->input('phone_number'),
+            'password' => Hash::make($request->input('password')),
             'roles' => $request->input('roles')
         ];
+
+        Log::info("Inputs::" . json_encode($inputs));
 
         $successStatus = 'Failed to create UP User!';
 
         try {
-            $message = Http::post('http://localhost:8000/api/user/create', $request)['message'];
+            $message = Http::post('http://localhost:8000/api/user/create', $inputs)['message'];
             Log::info("User response message::" . json_encode($message));
             if ($message[0] == 'OK') $successStatus = 'User created successfully!';
             else $successStatus = $message[0];
@@ -102,9 +90,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id): View
+    public function show($userId): View
     {
-        $user = User::find($id);
+        $user = ['Something went wrong'];
+
+        Log::info("Parameter::" . $userId);
+
+        try {
+
+            $user = Http::post('http://localhost:8000/api/user/show', ['userId' => $userId])['user'];
+
+        } catch (\Exception $e) {
+            Log::info("User Show Exception:" . $e->getMessage());
+        }
         return view('users.show', compact('user'));
     }
 
@@ -114,13 +112,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id): View
+    public function edit($userId): View
     {
-        $user = User::find($id);
+        $user = [];
+        try {
+            $user = Http::post('http://localhost:8000/api/user/show', ['userId' => $userId])['user'];
+        } catch (\Exception $e) {
+            Log::info("User Show Exception:" . $e->getMessage());
+        }
         $roles = Role::pluck('name', 'name')->all();
-        $userRole = $user->roles->pluck('name', 'name')->all();
+        $userRole = $user['roles'];
 
-        return view('users.edit', compact('user', 'roles', 'userRole'));
+        if(!blank($user)) return view('users.edit', compact('user', 'roles', 'userRole'));
+
+        return view('users.show', compact('user'));
     }
 
     /**
@@ -130,30 +135,43 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, $userId): RedirectResponse
     {
         $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'same:confirm-password',
+            'full_name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $userId,
+            'phone_number' => 'required|min:10|max:11',
+            'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
 
-        $input = $request->all();
-        if (!empty($input['password'])) {
-            $input['password'] = Hash::make($input['password']);
+        $inputs = [
+            'id' => intval($userId),
+            'full_name' => $request->input('full_name'),
+            'email' => $request->input('email'),
+            'phone_number' => $request->input('phone_number'),
+            'password' => $request->input('password'),
+            'roles' => $request->input('roles')
+        ];
+
+        if (!empty($inputs['password'])) {
+            $inputs['password'] = Hash::make($inputs['password']);
         } else {
-            $input = Arr::except($input, array('password'));
+            $inputs = Arr::except($inputs, array('password'));
+        }
+        
+        $successStatus = 'Failed to update UP User!';
+
+        try {
+            $message = Http::post('http://localhost:8000/api/user/update', $inputs)['message'];
+            Log::info("User Update response message::" . json_encode($message));
+            if ($message[0] == 'OK') $successStatus = 'User updated successfully!';
+            else $successStatus = $message[0];
+        } catch (\Exception $e) {
+            Log::info("UP User Update Exception:" . $e->getMessage());
         }
 
-        $user = User::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id', $id)->delete(); //We delete previously assigned roles ready to save new roles updated.
-
-        $user->assignRole($request->input('roles'));
-
-        return redirect()->route('users.index')
-            ->with('success', 'User updated successfully');
+        return redirect()->route('users.index')->with('success', $successStatus);
     }
 
     /**

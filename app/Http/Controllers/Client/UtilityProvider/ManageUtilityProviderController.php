@@ -98,7 +98,6 @@ class ManageUtilityProviderController extends Controller
      */
     public function show(Request $request, $providerCode)
     {
-        // $providerCode = $request->input('providerCode');
 
         $utilityProvider = ['Something went wrong'];
 

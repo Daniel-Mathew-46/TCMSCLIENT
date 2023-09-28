@@ -2,12 +2,15 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Client\Roles\RoleController;
 use App\Http\Controllers\Client\Users\UserController;
 use App\Http\Controllers\Client\Tariffs\ManageTariffsController;
 use App\Http\Controllers\Client\Customers\ManageCustomersController;
 use App\Http\Controllers\Client\UtilityProvider\ManageUtilityProviderController;
+use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,19 +31,18 @@ Route::get('/admin', function () {
     return view('home');
 });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
 
 // ['middleware' => ['auth']],
-Route::group([], function () {
-    // Route::resource('roles', RoleController::class);
+Route::group(['middleware' => ['auth']], function () {
     Route::resource('utility_providers', ManageUtilityProviderController::class);
-    Route::resource('provider_category', RegisterController::class);
+    Route::resource('provider_categories', ManageProviderCategoryController::class);
     Route::resource('tariffs', ManageTariffsController::class);
     Route::resource('customers', ManageCustomersController::class);
     Route::resource('users', UserController::class);
+    Route::resource('roles', RoleController::class);
     Route::get('create_customer_payment', [ManageCustomersController::class, 'create_payment'])->name('create_customer_payment');
 });
 

@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col-lg-12 margin-tb mb-2">
         <div class="pull-left">
-            <h2>Create New Utility Provider</h2>
+            <h2>Create New Provider Category</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('utility_providers.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('provider_categories.index') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -23,30 +23,18 @@
   </div>
 @endif
 
-{!! Form::open(array('route' => 'utility_providers.store','method'=>'POST')) !!}
+{!! Form::open(array('route' => 'provider_categories.store','method'=>'POST')) !!}
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
         <div class="form-group">
-            <strong>Provider Name:</strong>
-            {!! Form::text('provider_name', null, array('placeholder' => 'Provider Name','class' => 'form-control')) !!}
+            <strong>Prov.Category Name:</strong>
+            {!! Form::text('prov_categ_name', null, array('placeholder' => 'Prov.Category Name','class' => 'form-control')) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
         <div class="form-group">
-            <strong>Provider Code:</strong>
-            {!! Form::text('provider_code', null, array('placeholder' => 'Provider Code','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
-        <div class="form-group">
-            <strong>Provider Status</strong>
-            {!! Form::text('provider_status', null, array('placeholder' => 'Provider Status','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
-        <div class="form-group">
-            <strong>Provider Category:</strong>
-            {!! Form::select('provider_categories_id', collect($providerCategories)->pluck('name', 'id'), null, array('class' => 'form-control')) !!}
+            <strong>Prov.Category Code:</strong>
+            {!! Form::text('prov_categ_code', null, array('placeholder' => 'Prov.Category Code','class' => 'form-control')) !!}
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-2">

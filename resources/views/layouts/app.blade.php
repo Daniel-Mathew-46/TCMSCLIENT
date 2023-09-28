@@ -36,26 +36,40 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
-                        {{-- @guest
+                        @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
   
-                            @if (Route::has('register'))
+                            {{-- @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
-                            @endif
-                        @else --}}
-                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Utility Providers</a></li>
-                            <li><a class="nav-link" href="{{ route('users.index') }}">Manage UP Users</a></li>
-                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Provider Categories</a></li>
+                            @endif --}}
+                        @else
+                            {{-- @if (!empty(Auth::user()->getRoleNames()))
+                                @if (in_array("Admin", Auth::user()->getRoleNames()))
+                                    <li><a class="nav-link" href="{{ route('users.index') }}">UP Users</a></li>
+                                    <li><a class="nav-link" href="{{ route('roles.index') }}">Roles and Permissions</a></li>
+                                    <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Utility Providers</a></li>
+                                    <li><a class="nav-link" href="{{ route('provider_categories.index') }}">Provider Categories</a></li>
+                                @else
+                                    <li><a class="nav-link" href="{{ route('customers.index') }}">Customers</a></li>
+                                    <li><a class="nav-link" href="{{ route('tariffs.index') }}">Tariffs</a></li>
+                                    <li><a class="nav-link" href="{{ route('create_customer_payment') }}">Utility Payments</a></li>
+                                    <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Manage Debts</a></li>
+                                @endif
+                            @else
+                            @endif --}}
+                            <li><a class="nav-link" href="{{ route('users.index') }}">UP Users</a></li>
+                            <li><a class="nav-link" href="{{ route('roles.index') }}">Roles and Permissions</a></li>
+                            <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Utility Providers</a></li>
+                            <li><a class="nav-link" href="{{ route('provider_categories.index') }}">Provider Categories</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{-- {{ Auth::user()->name }} --}}
-                                    Daniel Mathew Mushi
+                                    {{ Auth::user()->full_name }}
                                 </a>
   
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -70,7 +84,7 @@
                                     </form>
                                 </div>
                             </li>
-                        {{-- @endguest --}}
+                        @endguest
                     </ul>
                 </div>
             </div>
