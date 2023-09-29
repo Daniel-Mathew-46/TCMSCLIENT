@@ -23,9 +23,8 @@ class CustomerRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'utility_provider' => 'required',
-            'name' => 'required|max:255|min:4',
-            'mobile' => ['required', new CustomerFieldsRule()],
+            'full_name' => 'required|max:255|min:4',
+            'phone' => ['required', new CustomerFieldsRule()],
             "address" => 'required'
         ];
     }

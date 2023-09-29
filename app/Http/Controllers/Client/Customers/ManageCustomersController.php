@@ -15,30 +15,15 @@ class ManageCustomersController extends Controller
      */
     public function index(Request $request)
     {
-        $customers = [[
-            "id" => 1,
-            "utilityProvider" => "Tanesco",
-            "name" => "Daniel Mathew",
-            "mobile" => "0755664536",
-            "address" => "Dodoma",
-            "meterNumber" => 11899486758
-        ],
-        [
-            "id" => 2,
-            "utilityProvider" => "Tanesco",
-            "name" => "John Mocco",
-            "mobile" => "0755443536",
-            "address" => "Dodoma",
-            "meterNumber" => 118553016758
-        ],
-        [
-            "id" => 3,
-            "utilityProvider" => "Duwasa",
-            "name" => "Anne Marie",
-            "mobile" => "0755443536",
-            "address" => "Arusha",
-            "meterNumber" => 110043016758
-        ]];
+        $customers = [];
+
+        try {
+            $customers = Http::post('http://localhost:8000/api/customers'  )['customers'];
+            Log::info("Customers Message::" . json_encode($customers));
+        } catch (\Exception $e) {
+            log::channel('daily')->info("CustomerException:" . $e->getMessage());
+        }
+        
         return view('customer.index', compact('customers'))
         ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -48,15 +33,7 @@ class ManageCustomersController extends Controller
      */
     public function create()
     {
-        $providers = [];
-
-        try {
-            $providers = Http::post('http://localhost:8000/api/utilityProviders'  )['providers'];
-            Log::info("Providers Message::" . json_encode($providers));
-        } catch (\Exception $e) {
-            log::channel('daily')->info("UtilityProviderException:" . $e->getMessage());
-        }
-        return view('customer.register', compact('providers'));
+        return view('customer.register');
     }
 
     /**
@@ -72,24 +49,58 @@ class ManageCustomersController extends Controller
      */
     public function store(CustomerRegisterRequest $request)
     {
-        // $request->validate();
-        $successStatus = "Successfully registered!";
+        // $this->validate($request, [
+        //     'full_name' => 'required',
+        //     'phone' => 'required',
+        //     'status' => 'required'
+        // ]);
+
+        Log::info("Inputs::" . json_encode($request->all()));
+
+        $inputs = [
+            'full_name' => $request->input('full_name'),
+            'phone' => $request->input('phone'),
+            'status' => $request->input('status'),
+        ];
+
+        $successStatus = 'Failed to create utility service provider';
+
+        try {
+            $message = Http::post('http://localhost:8000/api/utilityProvider', $inputs)['message'];
+            Log::info("Utility Provider response message::" . json_encode($message));
+            if ($message[0] == 'OK') $successStatus = 'Successfully created utility service provider!';
+            else $successStatus = $message[0];
+        } catch (\Exception $e) {
+            Log::info("Utility Provider Register Exception:" . $e->getMessage());
+        }
+
         return redirect()->route('customers.index')->with('success', $successStatus);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($customerId)
     {
-        $customer = [
-            "id" => 1,
-            "utilityProvider" => "Tanesco",
-            "name" => "Daniel Mathew",
-            "mobile" => "0755664536",
-            "address" => "Dodoma",
-            "meterNumber" => 11899486758
-        ];
+        // $customer = [
+        //     "id" => 1,
+        //     "utilityProvider" => "Tanesco",
+        //     "name" => "Daniel Mathew",
+        //     "mobile" => "0755664536",
+        //     "address" => "Dodoma",
+        //     "meterNumber" => 11899486758
+        // ];
+        $customer = ['Something went wrong'];
+
+        Log::info("Parameter::" . $customerId);
+
+        try {
+
+            $customer = Http::post('http://127.0.0.1:8000/api/customerById', ['customerId' => $customerId])['Customer'];
+
+        } catch (\Exception $e) {
+            Log::info("User Show Exception:" . $e->getMessage());
+        }
         return view('customer.show', compact('customer'));
     }
 

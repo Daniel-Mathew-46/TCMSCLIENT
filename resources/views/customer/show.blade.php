@@ -12,36 +12,45 @@
     </div>
 </div>
 
-@if (gettype($customer) == 'array')
+@if (gettype($customer) == 'array' && count($customer) > 1)
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Customer Name:</strong>
-                {{ $customer['name'] }}
+                {{ $customer['full_name'] }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Customer Mobile No:</strong>
-                {{ $customer['mobile'] }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Utility Provider:</strong>
-                {{ $customer['utilityProvider']  }}
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Customer Meter Number:</strong>
-                {{ $customer['meterNumber']  }}
+                {{ $customer['phone'] }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Customer Address:</strong>
                 {{ $customer['address']  }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Meter Details:</strong>
+                @if(!empty($customer['meters']))
+                    @foreach($customer['meters'] as $meter)
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <span>Meter Number:</span>
+                            {{ $meter['meter_number']}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <span>Meter Status:</span> 
+                            {{ $meter['status']}}
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

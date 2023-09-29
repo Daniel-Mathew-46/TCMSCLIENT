@@ -23,18 +23,18 @@
    <th>No</th>
    <th>Customer Name</th>
    <th>Customer Mobile No: </th>
-   <th>Utility Provider</th>
-   <th>Meter Number</th>
+   {{-- <th>Utility Provider</th>
+   <th>Meter Number</th> --}}
    <th>Address</th>
    <th width="280px">Action</th>
  </tr>
  @foreach ($customers as $key => $customer)
   <tr>
     <td>{{ ++$i }}</td>
-    <td>{{ $customer['name'] }}</td>
-    <td>{{ $customer['mobile'] }}</td>
-    <td>{{ $customer['utilityProvider'] }}</td>
-    <td>{{ $customer['meterNumber'] }}</td>
+    <td>{{ $customer['full_name'] }}</td>
+    <td>{{ $customer['phone'] }}</td>
+    {{-- <td>{{ $customer['utilityProvider'] }}</td>
+    <td>{{ $customer['meterNumber'] }}</td> --}}
     <td>{{ $customer['address'] }}</td>
     <td>
        <a class="btn btn-info" href="{{ route('customers.show', $customer['id']) }}">Show</a>

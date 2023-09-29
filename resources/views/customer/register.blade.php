@@ -22,31 +22,23 @@
                         <div class="row mb-3">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="name">Utility Provider:</label> 
-                                    {!! Form::select('utility_provider', collect($providers)->pluck('provider_name', 'id'), null, array('class' => 'form-control')) !!}
+                                    <label for="name">Customer Name:</label>
+                                    {!! Form::text('full_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="name">Name:</label>
-                                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                                    <label for="name">Customer Mobile No:</label> 
+                                    {!! Form::text('phone', null, array('placeholder' => 'Mobile Number','class' => 'form-control')) !!} 
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label for="name">Mobile No:</label> 
-                                    {!! Form::text('mobile', null, array('placeholder' => 'Mobile Number','class' => 'form-control')) !!} 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="name">Address:</label> 
+                                    <label for="name">Customer Address:</label> 
                                     {!! Form::text('address', null, array('placeholder' => 'Address','class' => 'form-control')) !!}
                                 </div>
                             </div>
