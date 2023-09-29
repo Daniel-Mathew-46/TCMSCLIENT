@@ -47,31 +47,31 @@ class ManageCustomersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CustomerRegisterRequest $request)
+    public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'full_name' => 'required',
-        //     'phone' => 'required',
-        //     'status' => 'required'
-        // ]);
+        $this->validate($request, [
+            'full_name' => 'required|string',
+            'phone' => 'required|min:10|max:11',
+            'address' => 'required'
+        ]);
 
         Log::info("Inputs::" . json_encode($request->all()));
 
         $inputs = [
             'full_name' => $request->input('full_name'),
             'phone' => $request->input('phone'),
-            'status' => $request->input('status'),
+            'address' => $request->input('address'),
         ];
 
-        $successStatus = 'Failed to create utility service provider';
+        $successStatus = 'Failed to register customer!';
 
         try {
-            $message = Http::post('http://localhost:8000/api/utilityProvider', $inputs)['message'];
-            Log::info("Utility Provider response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully created utility service provider!';
+            $message = Http::post('http://127.0.0.1:8000/api/customer/create', $inputs)['message'];
+            Log::info("Customer Register response message::" . json_encode($message));
+            if ($message[0] == 'OK') $successStatus = 'Successfully registered customer!';
             else $successStatus = $message[0];
         } catch (\Exception $e) {
-            Log::info("Utility Provider Register Exception:" . $e->getMessage());
+            Log::info("Customer Register Exception:" . $e->getMessage());
         }
 
         return redirect()->route('customers.index')->with('success', $successStatus);
