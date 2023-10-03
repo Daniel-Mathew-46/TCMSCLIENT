@@ -35,9 +35,9 @@
     <td>{{ $customer['phone'] }}</td>
     <td>{{ $customer['address'] }}</td>
     <td>
-       <a class="btn btn-info" href="{{ route('customers.show', $customer['id']) }}">Show</a>
-       <a class="btn btn-primary" href="{{ route('debts.show', $customer['id']) }}">Assign Debt</a>
-       <a class="btn btn-outline-secondary" href="{{ route('customer.payment', $customer['id']) }}">Bills</a>
+       <a class="btn btn-outline-info" href="{{ route('customers.show', $customer['id']) }}">Show</a>
+       <a class="btn btn-outline-primary" href="{{ route('customers.edit', $customer['id']) }}">Assign Debt</a>
+       <a class="btn btn-outline-secondary" href="{{ route('customers.edit', $customer['id']) }}">Bill</a>
     </td>
   </tr>
  @endforeach

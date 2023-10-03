@@ -39,7 +39,7 @@ class ManageCustomersController extends Controller
     /**
      * Create a payment resource in storage.
      */
-    public function create_payment(Request $request)
+    public function create_payment($customerId)
     {
         return view('customer.payment');
     }
@@ -82,14 +82,6 @@ class ManageCustomersController extends Controller
      */
     public function show($customerId)
     {
-        // $customer = [
-        //     "id" => 1,
-        //     "utilityProvider" => "Tanesco",
-        //     "name" => "Daniel Mathew",
-        //     "mobile" => "0755664536",
-        //     "address" => "Dodoma",
-        //     "meterNumber" => 11899486758
-        // ];
         $customer = ['Something went wrong'];
 
         Log::info("Parameter::" . $customerId);
@@ -99,7 +91,8 @@ class ManageCustomersController extends Controller
             $customer = Http::post('http://127.0.0.1:8000/api/customerById', ['customerId' => $customerId])['Customer'];
 
         } catch (\Exception $e) {
-            Log::info("User Show Exception:" . $e->getMessage());
+
+            Log::info("Customer Show Exception:" . $e->getMessage());
         }
         return view('customer.show', compact('customer'));
     }

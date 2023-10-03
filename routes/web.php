@@ -9,6 +9,7 @@ use App\Http\Controllers\Client\Roles\RoleController;
 use App\Http\Controllers\Client\Users\UserController;
 use App\Http\Controllers\Client\Tariffs\ManageTariffsController;
 use App\Http\Controllers\Client\Customers\ManageCustomersController;
+use App\Http\Controllers\Client\Debts\DebtController;
 use App\Http\Controllers\Client\UtilityProvider\ManageUtilityProviderController;
 use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryController;
 
@@ -41,8 +42,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('provider_categories', ManageProviderCategoryController::class);
     Route::resource('tariffs', ManageTariffsController::class);
     Route::resource('customers', ManageCustomersController::class);
+    Route::get('customer/payment/{customerId}', [ManageCustomersController::class, 'create_payment'])->name('customer.payment');
+    Route::resource('debts', DebtController::class);
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
-    Route::get('create_customer_payment', [ManageCustomersController::class, 'create_payment'])->name('create_customer_payment');
 });
 

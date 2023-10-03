@@ -44,7 +44,7 @@ class ManageUtilityProviderController extends Controller
 
         try {
 
-            $providerCategories = Http::post('http://localhost:8000/api/listsProviderCategories')['providerCategories'];
+            $providerCategories = Http::post('http://localhost:8000/api/listProviderCategories')['providerCategories'];
             Log::info("Provider Categories::" . json_encode($providerCategories));
         } catch (\Exception $e) {
             Log::info("Provider Categories Exception:" . $e->getMessage());
@@ -122,11 +122,7 @@ class ManageUtilityProviderController extends Controller
      */
     public function edit($id)
     {
-        // $user = User::find($id);
-        // $roles = Role::pluck('name', 'name')->all();
-        // $userRole = $user->roles->pluck('name', 'name')->all();
-
-        // return view('users.edit', compact('user', 'roles', 'userRole'));
+        //
     }
 
     /**
