@@ -7,24 +7,20 @@
         <div class='col-md-4'>
           <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
           <h2 class="card-title mb-3">Customer Utility Payment</h2>
-          <form accept-charset="UTF-8" action="/" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="pk_bQQaTxnaZlzv4FnnuZ28LFHccVSaj" id="payment-form" method="post">
-                {{-- <div style="margin:0;padding:0;display:inline">
-                <input name="utf8" type="hidden" value="✓" />
-                <input name="_method" type="hidden" value="PUT" />
-                <input name="authenticity_token" type="hidden" value="qLZ9cScer7ZxqulsUWazw4x3cSEzv899SP/7ThPCOV8=" />
-            </div> --}}
+          {{-- <form accept-charset="UTF-8" action="/" class="require-validation" data-cc-on-file="false" data-stripe-publishable-key="pk_bQQaTxnaZlzv4FnnuZ28LFHccVSaj" id="payment-form" method="post"> --}}
+            {!! Form::open(['method' => 'POST','route' => ['debts.store']]) !!}
             <div class='form-row mb-2'>
               <div class='col-xs-12 form-group required'>
                 <label class='control-label'>Meter Number</label>
-                <input class='form-control' size='4' type='text'>
+                {!! Form::select('meters_id', collect($meters)->pluck('meter_number', 'id'), null, array('class' => 'form-control')) !!}
               </div>
             </div>
-            <div class='form-row mb-2'>
+            {{-- <div class='form-row mb-2'>
               <div class='col-xs-12 form-group required'>
                 <label class='control-label'>Utility Provider:</label>
                 <input autocomplete='off' class='form-control' size='20' type='text'>
               </div>
-            </div>
+            </div> --}}
             <div class='form-row mb-2'>
               <div class='col-xs-4 form-group expiration required mb-3'>
                 <label class='control-label'>Mobile No:</label>
@@ -36,19 +32,12 @@
               </div>
             </div>
             <div class='form-row mb-3'>
-              <div class='col-md-12'>
-                <div class='form-control total btn btn-info'>
-                  Total:
-                  <span class='amount'>Tsh.0</span>
-                </div>
-              </div>
-            </div>
-            <div class='form-row mb-3'>
               <div class='col-md-12 form-group'>
                 <button class='form-control btn btn-primary submit-button' type='submit'>Pay »</button>
               </div>
             </div>
-          </form>
+          {{-- </form> --}}
+          {!! Form::close() !!}
         </div>
         <div class='col-md-4'></div>
     </div>

@@ -16,6 +16,13 @@ use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:user-list|user-create|user-edit|user-show', ['only' => ['index','store']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-show', ['only' => ['show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +31,6 @@ class UserController extends Controller
     public function index(Request $request): View
     {
         $data = Http::post('http://localhost:8000/api/users')['users'];
-
-        Log::info('Users Fetched: '.json_encode($data));
 
         return view('users.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
@@ -55,9 +60,10 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|min:10|max:11',
+            'utility_provider_id' => 'required',
             'password' => 'required|same:confirm-password',
             'confirm-password' => 'required',
-            'roles' => 'required'
+            'role' => 'required'
         ]);
 
         $inputs = [
@@ -65,7 +71,8 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
             'password' => Hash::make($request->input('password')),
-            'roles' => $request->input('roles')
+            'utility_provider_id' => $request->input('utility_provider_id'),
+            'roles' => [$request->input('role')]
         ];
 
         Log::info("Inputs::" . json_encode($inputs));
@@ -121,7 +128,7 @@ class UserController extends Controller
             Log::info("User Show Exception:" . $e->getMessage());
         }
         $roles = Role::pluck('name', 'name')->all();
-        $userRole = $user['roles'];
+        $userRole = isset($user['roles']) ? $user['roles'] : null;
 
         if(!blank($user)) return view('users.edit', compact('user', 'roles', 'userRole'));
 

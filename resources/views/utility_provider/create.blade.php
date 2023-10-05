@@ -31,18 +31,12 @@
             {!! Form::text('provider_name', null, array('placeholder' => 'Provider Name','class' => 'form-control')) !!}
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
-        <div class="form-group">
-            <strong>Provider Code:</strong>
-            {!! Form::text('provider_code', null, array('placeholder' => 'Provider Code','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
+    {{-- <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
         <div class="form-group">
             <strong>Provider Status</strong>
             {!! Form::text('provider_status', null, array('placeholder' => 'Provider Status','class' => 'form-control')) !!}
         </div>
-    </div>
+    </div> --}}
     <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
         <div class="form-group">
             <strong>Provider Category:</strong>

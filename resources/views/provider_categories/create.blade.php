@@ -31,12 +31,6 @@
             {!! Form::text('prov_categ_name', null, array('placeholder' => 'Prov.Category Name','class' => 'form-control')) !!}
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
-        <div class="form-group">
-            <strong>Prov.Category Code:</strong>
-            {!! Form::text('prov_categ_code', null, array('placeholder' => 'Prov.Category Code','class' => 'form-control')) !!}
-        </div>
-    </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-2">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>

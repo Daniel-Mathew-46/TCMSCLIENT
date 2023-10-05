@@ -7,7 +7,9 @@
             <h2>Utility Providers Management</h2>
         </div>
         <div class="pull-right mb-4">
+          @can('provider-create')
             <a class="btn btn-success" href="{{ route('utility_providers.create') }}"> Create New Utility Provider</a>
+          @endcan
         </div>
     </div>
 </div>
@@ -33,8 +35,12 @@
     <td>{{ $provider['provider_code'] }}</td>
     <td>{{ $provider['provider_status'] }}</td>
     <td>
-       <a class="btn btn-info" href="{{ route('utility_providers.show', $provider['provider_code']) }}">Show</a>
-       {{-- <a class="btn btn-primary" href="{{ route('utility_providers.edit', $provider['id']) }}">Edit</a> --}}
+      @can('provider-show')
+        <a class="btn btn-info" href="{{ route('utility_providers.show', $provider['provider_code']) }}">Show</a>
+      @endcan
+      @can('provider-edit')
+        <a class="btn btn-primary" href="{{ route('utility_providers.edit', $provider['id']) }}">Edit</a>
+      @endcan
     </td>
   </tr>
  @endforeach

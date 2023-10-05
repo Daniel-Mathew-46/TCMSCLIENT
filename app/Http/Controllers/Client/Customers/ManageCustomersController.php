@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Http;
 
 class ManageCustomersController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:customer-list|customer-create|customer-assigndebt|customer-show', ['only' => ['index','store']]);
+        $this->middleware('permission:customer-create', ['only' => ['create','store']]);
+        $this->middleware('permission:customer-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:customer-show', ['only' => ['show']]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -41,7 +48,17 @@ class ManageCustomersController extends Controller
      */
     public function create_payment($customerId)
     {
-        return view('customer.payment');
+        $customer = ['Something went wrong'];
+
+        Log::info("Parameter::" . $customerId);
+
+        try {
+            $customer = Http::post('http://127.0.0.1:8000/api/customerById', ['customerId' => $customerId])['Customer'];
+            $meters = $customer['meters'];
+        } catch (\Exception $e) {
+            Log::info("Customer Debt Show Exception:" . $e->getMessage());
+        }
+        return view('customer.payment', compact('meters'));
     }
 
     /**

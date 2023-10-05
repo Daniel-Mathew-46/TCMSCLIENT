@@ -33,12 +33,6 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
         <div class="form-group">
-            <strong>Tariff Code:</strong>
-            {!! Form::text('code', null, array('placeholder' => 'Tariff Code','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
-        <div class="form-group">
             <strong>Tariff PercentageAmount:</strong>
             {!! Form::text('percentageAmount', null, array('placeholder' => 'Tariff Percentage Amount','class' => 'form-control')) !!}
         </div>

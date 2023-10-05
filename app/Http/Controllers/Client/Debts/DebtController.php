@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Http;
 
 class DebtController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:customer-assigndebt', ['only' => ['show','store']]);
+    }
     /**
      * Display a listing of the resource.
      */

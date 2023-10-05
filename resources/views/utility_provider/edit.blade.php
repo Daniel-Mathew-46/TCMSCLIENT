@@ -4,10 +4,10 @@
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
-            <h2>Edit New User</h2>
+            <h2>Edit Utility Provider</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+            <a class="btn btn-primary" href="{{ route('utility_providers.index') }}"> Back</a>
         </div>
     </div>
 </div>
@@ -23,42 +23,40 @@
   </div>
 @endif
 
-{!! Form::model($user, ['method' => 'PATCH','route' => ['users.update', $user->id]]) !!}
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Name:</strong>
-            {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+@if (isset($utilityProvider['id']))
+{!! Form::model($utilityProvider, ['method' => 'PATCH','route' => ['utility_providers.update', $utilityProvider['id']]]) !!}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Provider Name:</strong>
+                {!! Form::text('provider_name', null, array('placeholder' => 'Provider Name','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Provider Code:</strong>
+                {!! Form::text('provider_code', null, array('placeholder' => 'Provider Code','class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
+            <div class="form-group">
+                <strong>Provider Status</strong>
+                {!! Form::select('provider_status', collect($providerStatus)->pluck('name', 'value'), null, array('class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
+            <div class="form-group">
+                <strong>Provider Category:</strong>
+                {!! Form::select('provider_categories_id', collect($providerCategories)->pluck('name', 'id'), null, array('class' => 'form-control')) !!}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+            <button type="submit" class="btn btn-primary">Update</button>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Email:</strong>
-            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Password:</strong>
-            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Confirm Password:</strong>
-            {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="form-group">
-            <strong>Role:</strong>
-            {!! Form::select('roles[]', $roles, $userRole, array('class' => 'form-control','multiple')) !!}
-        </div>
-    </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-</div>
 {!! Form::close() !!}
+@else
+    
+@endif
 
 @endsection

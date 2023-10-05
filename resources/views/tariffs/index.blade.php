@@ -6,9 +6,11 @@
         <div class="pull-left">
             <h2>Tariffs Management</h2>
         </div>
-        <div class="pull-right mb-4">
+        @can('tariff-create')
+          <div class="pull-right mb-4">
             <a class="btn btn-success" href="{{ route('tariffs.create') }}"> Create New Tariff</a>
-        </div>
+          </div>
+        @endcan
     </div>
 </div>
 
@@ -35,7 +37,12 @@
     <td>{{ $tariff['percentageAmount'] }}</td>
     <td>{{ $tariff['value'] }}</td>
     <td>
-      <a class="btn btn-info" href="{{ route('tariffs.show', $tariff['id']) }}">Show</a>
+      @can('tariff-show')
+        <a class="btn btn-info" href="{{ route('tariffs.show', $tariff['id']) }}">Show</a>
+      @endcan
+      @can('tariff-edit')
+        <a class="btn btn-primary" href="{{ route('tariffs.edit', $tariff['id']) }}">Edit</a>
+      @endcan
     </td>
   </tr>
  @endforeach

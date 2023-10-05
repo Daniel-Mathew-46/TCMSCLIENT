@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Http;
 
 class ManageProviderCategoryController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:provcateg-list|provcateg-create|provcateg-edit|provcateg-show', ['only' => ['index','store']]);
+        $this->middleware('permission:provcateg-create', ['only' => ['create','store']]);
+        $this->middleware('permission:provcateg-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:provcateg-show', ['only' => ['show']]);
+    }
      /**
      * Display a listing of the resource.
      *
@@ -52,14 +59,14 @@ class ManageProviderCategoryController extends Controller
     {
         $this->validate($request, [
             'prov_categ_name' => 'required',
-            'prov_categ_code' => 'required',
+            // 'prov_categ_code' => 'required',
         ]);
 
         Log::info("Inputs::" . json_encode($request->all()));
 
         $inputs = [
             'prov_categ_name' => $request->input('prov_categ_name'),
-            'prov_categ_code' => $request->input('prov_categ_code'),
+            // 'prov_categ_code' => $request->input('prov_categ_code'),
         ];
 
         $successStatus = 'Failed to create provider category';

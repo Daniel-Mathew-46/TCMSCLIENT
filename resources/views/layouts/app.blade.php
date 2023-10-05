@@ -44,16 +44,12 @@
                             @endif
                         @else
                             @if (!empty(Auth::user()->roles))
-                                @if (Auth::user()->hasRole(["Admin"]))  
-                                    <li><a class="nav-link" href="{{ route('users.index') }}">UP Users</a></li>
-                                    <li><a class="nav-link" href="{{ route('roles.index') }}">Roles and Permissions</a></li>
-                                    <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Utility Providers</a></li>
-                                    <li><a class="nav-link" href="{{ route('provider_categories.index') }}">Provider Categories</a></li>
-                                @else
-                                    <li><a class="nav-link" href="{{ route('customers.index') }}">Customers</a></li>
-                                    <li><a class="nav-link" href="{{ route('tariffs.index') }}">Tariffs</a></li>
-                                    {{-- <li><a class="nav-link" href="{{ route('customers.payment', $customer['id']) }}">Utility Payments</a></li> --}}
-                                @endif
+                                <li><a class="nav-link" href="{{ route('users.index') }}">UP Users</a></li>
+                                <li><a class="nav-link" href="{{ route('roles.index') }}">Roles and Permissions</a></li>
+                                <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Utility Providers</a></li>
+                                <li><a class="nav-link" href="{{ route('provider_categories.index') }}">Provider Categories</a></li>
+                                <li><a class="nav-link" href="{{ route('customers.index') }}">Customers</a></li>
+                                <li><a class="nav-link" href="{{ route('tariffs.index') }}">Tariffs</a></li>
                             @else
                             @endif
                             <li class="nav-item dropdown">

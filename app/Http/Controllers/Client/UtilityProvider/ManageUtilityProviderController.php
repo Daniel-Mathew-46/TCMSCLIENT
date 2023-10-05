@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Http;
 
 class ManageUtilityProviderController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:provider-list|provider-create|provider-edit|provider-show', ['only' => ['index','store']]);
+        $this->middleware('permission:provider-create', ['only' => ['create','store']]);
+        $this->middleware('permission:provider-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:provider-show', ['only' => ['show']]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -43,7 +50,6 @@ class ManageUtilityProviderController extends Controller
         $providerCategories = [];
 
         try {
-
             $providerCategories = Http::post('http://localhost:8000/api/listProviderCategories')['providerCategories'];
             Log::info("Provider Categories::" . json_encode($providerCategories));
         } catch (\Exception $e) {
@@ -62,17 +68,11 @@ class ManageUtilityProviderController extends Controller
     {
         $this->validate($request, [
             'provider_name' => 'required',
-            'provider_code' => 'required',
-            'provider_status' => 'required',
             "provider_categories_id" => 'required'
         ]);
 
-        Log::info("Inputs::" . json_encode($request->all()));
-
         $inputs = [
             'provider_name' => $request->input('provider_name'),
-            'provider_code' => $request->input('provider_code'),
-            'provider_status' => $request->input('provider_status'),
             "provider_categories_id" => $request->input('provider_categories_id')
         ];
 
@@ -120,9 +120,29 @@ class ManageUtilityProviderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($providerId)
     {
-        //
+        Log::info("Parameter::" . $providerId);
+
+        $utilityProvider = [];
+        $providerCategories = [];
+        $providerStatus = [['name' => 'Active', 'value' => 'Active'], ['name' => 'Inactive', 'value' => 'Inactive']];
+
+        try {
+            $utilityProvider = Http::post('http://localhost:8000/api/utilityProviderById', ['providerId' => $providerId])['Utility Provider'];
+            Log::info("Provider Utility::" . json_encode($utilityProvider));
+        } catch (\Exception $e) {
+            Log::info("Utility Provider Edit Exception:" . $e->getMessage());
+        }
+
+        try {
+
+            $providerCategories = Http::post('http://localhost:8000/api/listProviderCategories')['providerCategories'];
+            
+        } catch (\Exception $e) {
+            Log::info("Provider Categories Exception:" . $e->getMessage());
+        }
+        return view('utility_provider.edit', compact('utilityProvider', 'providerStatus', 'providerCategories'));
     }
 
     /**
@@ -134,6 +154,34 @@ class ManageUtilityProviderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'provider_name' => 'required',
+            'provider_code' => 'required',
+            'provider_status' => 'required',
+            "provider_categories_id" => 'required'
+        ]);
+
+        Log::info("Inputs::" . json_encode($request->all()));
+
+        $inputs = [
+            'id' => $id,
+            'provider_name' => $request->input('provider_name'),
+            'provider_code' => $request->input('provider_code'),
+            'provider_status' => $request->input('provider_status'),
+            "provider_categories_id" => $request->input('provider_categories_id')
+        ];
+
+        $successStatus = 'Failed to update utility service provider';
+
+        try {
+            $message = Http::patch('http://localhost:8000/api/utilityProvider', $inputs)['message'];
+            Log::info("Utility Provider response message::" . json_encode($message));
+            if ($message[0] == 'OK') $successStatus = 'Successfully created utility service provider!';
+            else $successStatus = $message[0];
+        } catch (\Exception $e) {
+            Log::info("Utility Provider Update Exception:" . $e->getMessage());
+        }
+
+        return redirect()->route('utility_providers.index')->with('success', $successStatus);
     }
 }

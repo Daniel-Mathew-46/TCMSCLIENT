@@ -6,9 +6,11 @@
         <div class="pull-left">
             <h2>Provider Categories Management</h2>
         </div>
-        <div class="pull-right mb-4">
+        @can('provcateg-create')
+          <div class="pull-right mb-4">
             <a class="btn btn-success" href="{{ route('provider_categories.create') }}"> Create New Provider Category</a>
-        </div>
+          </div>
+        @endcan
     </div>
 </div>
 
@@ -31,7 +33,9 @@
     <td>{{ $provider_category['name'] }}</td>
     <td>{{ $provider_category['code'] }}</td>
     <td>
-       <a class="btn btn-info" href="{{ route('provider_categories.show', $provider_category['id']) }}">Show</a>
+      @can('provcateg-show')
+        <a class="btn btn-info" href="{{ route('provider_categories.show', $provider_category['id']) }}">Show</a>
+      @endcan
        {{-- <a class="btn btn-primary" href="{{ route('utility_providers.edit', $provider['id']) }}">Edit</a> --}}
     </td>
   </tr>
