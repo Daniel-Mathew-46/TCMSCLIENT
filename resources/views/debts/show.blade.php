@@ -65,3 +65,21 @@
 @endif
 
 @endsection
+
+
+{{-- @if(!empty($customer['meters']))
+                    @foreach($customer['meters'] as $meter)
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <span>Meter Number:</span>
+                            {{ $meter['meter_number']}}
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="form-group">
+                            <span>Meter Status:</span> 
+                            {{ $meter['status']}}
+                        </div>
+                    </div>
+                    @endforeach
+                @endif --}}

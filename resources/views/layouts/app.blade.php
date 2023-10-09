@@ -21,7 +21,12 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Token and Customer Management System
+                    Token and Customer Management System 
+                    {{-- {{isset(Auth::user()->utility_provider()->provider_name) ? strtoupper(Auth::user()->utility_provider->provider_name) : ""}} --}}
+                    <span class="fw-bold fs-6">
+                        {{-- {{"Dawasco"}} --}}
+                        {{-- {{isset(Auth::user()->utility_provider_id) ? strtoupper(Auth::user()->utility_provider_id) : ""}} --}}
+                    </span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -43,13 +48,25 @@
                                 </li>
                             @endif
                         @else
-                            @if (!empty(Auth::user()->roles))
-                                <li><a class="nav-link" href="{{ route('users.index') }}">UP Users</a></li>
-                                <li><a class="nav-link" href="{{ route('roles.index') }}">Roles and Permissions</a></li>
-                                <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Utility Providers</a></li>
-                                <li><a class="nav-link" href="{{ route('provider_categories.index') }}">Provider Categories</a></li>
-                                <li><a class="nav-link" href="{{ route('customers.index') }}">Customers</a></li>
-                                <li><a class="nav-link" href="{{ route('tariffs.index') }}">Tariffs</a></li>
+                            @if (!empty(Auth::user()->getAllPermissions()))
+                                @if (str_contains(implode(', ', collect(Auth::user()->getAllPermissions())->pluck('name')->toArray()), 'user'))
+                                    <li><a class="nav-link" href="{{ route('users.index') }}">UP Users</a></li>
+                                @endif
+                                @if (str_contains(implode(', ', collect(Auth::user()->getAllPermissions())->pluck('name')->toArray()), 'role'))
+                                    <li><a class="nav-link" href="{{ route('roles.index') }}">Roles and Permissions</a></li>
+                                @endif
+                                @if (str_contains(implode(', ', collect(Auth::user()->getAllPermissions())->pluck('name')->toArray()), 'provider'))
+                                    <li><a class="nav-link" href="{{ route('utility_providers.index') }}">Utility Providers</a></li>
+                                @endif
+                                @if (str_contains(implode(', ', collect(Auth::user()->getAllPermissions())->pluck('name')->toArray()), 'provcateg'))
+                                    <li><a class="nav-link" href="{{ route('provider_categories.index') }}">Provider Categories</a></li>
+                                @endif
+                                @if (str_contains(implode(', ', collect(Auth::user()->getAllPermissions())->pluck('name')->toArray()), 'customer'))
+                                    <li><a class="nav-link" href="{{ route('customers.index') }}">Customers</a></li>
+                                @endif
+                                @if (str_contains(implode(', ', collect(Auth::user()->getAllPermissions())->pluck('name')->toArray()), 'tariff'))
+                                    <li><a class="nav-link" href="{{ route('tariffs.index') }}">Tariffs</a></li>
+                                @endif
                             @else
                             @endif
                             <li class="nav-item dropdown">

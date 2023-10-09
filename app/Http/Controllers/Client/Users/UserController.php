@@ -43,9 +43,15 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        
+        $utility_providers = [];
+        try {
+            $utility_providers = Http::post('http://127.0.0.1:8000/api/utilityProvidersWithNoUsers')['providers'];
+            Log::info("providers fetch for users".json_encode($utility_providers));
+        } catch (\Exception $e) {
+            Log::info("UP User Create Exception:" . $e->getMessage());
+        }
         $roles = Role::pluck('name', 'name')->all();
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('roles', 'utility_providers'));
     }
 
     /**
@@ -54,17 +60,19 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) 
     {
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'phone_number' => 'required|min:10|max:11',
-            'utility_provider_id' => 'required',
             'password' => 'required|same:confirm-password',
             'confirm-password' => 'required',
             'role' => 'required'
         ]);
+
+        if ($request->input('role') == 'utility provider')
+            $this->validate($request, ['utility_provider_id' => 'required']);
 
         $inputs = [
             'full_name' => $request->input('name'),
@@ -104,8 +112,10 @@ class UserController extends Controller
         Log::info("Parameter::" . $userId);
 
         try {
-
             $user = Http::post('http://localhost:8000/api/user/show', ['userId' => $userId])['user'];
+            if(is_null($user)){
+                $user = ['Something went wrong'];
+            }
 
         } catch (\Exception $e) {
             Log::info("User Show Exception:" . $e->getMessage());
@@ -122,10 +132,12 @@ class UserController extends Controller
     public function edit($userId): View
     {
         $user = [];
+        $utility_providers = [];
         try {
             $user = Http::post('http://localhost:8000/api/user/show', ['userId' => $userId])['user'];
+            $utility_providers = Http::post('http://127.0.0.1:8000/api/utilityProvidersWithNoUsers')['providers'];
         } catch (\Exception $e) {
-            Log::info("User Show Exception:" . $e->getMessage());
+            Log::error("User Show Exception:" . $e->getMessage());
         }
         $roles = Role::pluck('name', 'name')->all();
         $userRole = isset($user['roles']) ? $user['roles'] : null;

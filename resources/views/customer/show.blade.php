@@ -37,6 +37,32 @@
                 <strong>Meter Details:</strong>
                 @if(!empty($customer['meters']))
                     @foreach($customer['meters'] as $meter)
+                    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
+                        <div class="form-group">
+                            <span class="mr-2 fw-bold">Meter Number:</span>
+                            {{ $meter['meter_number']}}
+                            <a class=" ml-2" href="{{ route('debts.show', $meter['id']) }}">View debts</a>
+                        </div>
+                    </div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    </div>
+@else
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>{{ $customer[0]}}</strong>
+            </div>
+        </div>
+    </div>
+@endif
+
+@endsection
+
+{{-- @if(!empty($customer['meters']))
+                    @foreach($customer['meters'] as $meter)
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
                             <span>Meter Number:</span>
@@ -56,18 +82,4 @@
                         </div>
                     </div>
                     @endforeach
-                @endif
-            </div>
-        </div>
-    </div>
-@else
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>{{ $customer[0]}}</strong>
-            </div>
-        </div>
-    </div>
-@endif
-
-@endsection
+                @endif --}}

@@ -45,6 +45,18 @@
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
         <div class="form-group">
+            <strong>Role:</strong>
+            {!! Form::select('role', $roles, null, array('class' => 'form-control', 'id' => 'roleSelect')) !!}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
+        <div class="form-group">
+            <strong>Utility Provider:</strong>
+            {!! Form::select('utility_provider_id', collect($utility_providers)->pluck('provider_name', 'id'), null, array('class' => 'form-control', 'id'=>'utilityProviderSelect')) !!}
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
+        <div class="form-group">
             <strong>Password:</strong>
             {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control')) !!}
         </div>
@@ -55,12 +67,6 @@
             {!! Form::password('confirm-password', array('placeholder' => 'Confirm Password','class' => 'form-control')) !!}
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
-        <div class="form-group">
-            <strong>Role:</strong>
-            {!! Form::select('role', $roles, null, array('class' => 'form-control')) !!}
-        </div>
-    </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Create</button>
     </div>
@@ -68,3 +74,18 @@
 {!! Form::close() !!}
 
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var roleSelect = document.getElementById('roleSelect');
+        roleSelect.value = 'utility_provider';
+        var utilityProviderSelect = document.getElementById('utilityProviderSelect');
+        roleSelect.addEventListener('change', function() {
+            if (this.value === 'Admin' && !utilityProviderSelect.disabled) {
+                utilityProviderSelect.disabled = true;
+                utilityProviderSelect.value = null; // Set the value to null
+            } else {
+                utilityProviderSelect.disabled = false;
+            }
+        });
+    });
+</script>

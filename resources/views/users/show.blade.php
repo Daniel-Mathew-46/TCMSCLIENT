@@ -34,6 +34,12 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
+                <strong>Utility Provider:</strong>
+                {{ $user['utility_provider'] }}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
                 <strong>Roles:</strong>
                 @if(!empty($user['roles']))
                     @foreach($user['roles'] as $v)

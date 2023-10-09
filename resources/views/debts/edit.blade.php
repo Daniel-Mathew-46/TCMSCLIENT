@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="col-xs-6 col-sm-6 col-md-6 justify-content-center ">
+    <div class="card py-6">
 <div class="row">
     <div class="col-lg-12 margin-tb">
         <div class="pull-left">
@@ -25,7 +27,7 @@
 
 {!! Form::open(['method' => 'POST','route' => ['debts.store']]) !!}
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 mb-2">
+    <div class="">
         <div class="form-group">
             <strong>Meter Number:</strong>
             {!! Form::select('meters_id', collect($meters)->pluck('meter_number', 'id'), null, array('class' => 'form-control')) !!}
@@ -54,5 +56,7 @@
     </div>
 </div>
 {!! Form::close() !!}
+</div>
+</div>
 
 @endsection

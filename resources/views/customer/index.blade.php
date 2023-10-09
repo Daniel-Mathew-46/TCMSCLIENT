@@ -24,7 +24,7 @@
  <tr>
    <th>No</th>
    <th>Customer Name</th>
-   <th>Customer Mobile No: </th>
+   <th>Customer Mobile No</th>
    {{-- <th>Utility Provider</th>
    <th>Meter Number</th> --}}
    <th>Address</th>
@@ -41,7 +41,7 @@
         <a class="btn btn-info" href="{{ route('customers.show', $customer['id']) }}">Show</a>
       @endcan
       @can('customer-assigndebt')
-       <a class="btn btn-primary" href="{{ route('debts.show', $customer['id']) }}">Assign Debt</a>
+       <a class="btn btn-primary" href="{{ route('debts.edit', $customer['id']) }}">Assign Debt</a>
       @endcan
        {{-- <a class="btn btn-outline-secondary" href="{{ route('customer.payment', $customer['id']) }}">Bills</a> --}}
     </td>

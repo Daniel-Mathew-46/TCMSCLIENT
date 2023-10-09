@@ -11,14 +11,14 @@ class DebtController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:customer-assigndebt', ['only' => ['show','store']]);
+        $this->middleware('permission:customer-assigndebt', ['only' => ['show','store', 'edit']]);
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        // 
     }
 
     /**
@@ -33,8 +33,6 @@ class DebtController extends Controller
             'reductionRate' => 'required|int'
         ]);
 
-        Log::info("Inputs::" . json_encode($request->all()));
-
         $inputs = [
             'meters_id' => $request->input('meters_id'),
             'description' => $request->input('description'),
@@ -42,13 +40,20 @@ class DebtController extends Controller
             'reductionRate' => $request->input('reductionRate')
         ];
 
-        $successStatus = 'Failed to register customer!';
+        Log::info("Inputs::" . json_encode($inputs));
+
+        $successStatus = 'Failed to assign debts.';
 
         try {
-            $message = Http::post('http://127.0.0.1:8000/api/assignDebt', $inputs)['message'];
-            Log::info("Debt Assign response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully assigned debt!';
-            else $successStatus = $message[0];
+            $debtResponse = Http::post('http://127.0.0.1:8000/api/assigndebt', $inputs);
+            //['message'];
+            $debtsArray = json_decode($debtResponse, true);
+
+            if (array_key_exists('message', $debtsArray)){
+                $successStatus = $debtResponse['message'][0];
+            } else {
+                $successStatus = 'Successfully assigned debt.';
+            }
         } catch (\Exception $e) {
             Log::info("Debt Assign Exception:" . $e->getMessage());
         }
@@ -59,7 +64,30 @@ class DebtController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $customerId)
+    public function show(Request $request, $meterId)
+    {
+        $successStatus = 'Failed to fetch debts!';
+
+        $debts = [];
+
+        try {
+            $debts = Http::post('http://127.0.0.1:8000/api/meterdebt', ['meterId' => $meterId])['debt'];
+            Log::info("Debt fetch response::" . json_encode($debts));
+        } catch (\Exception $e) {
+            Log::info("Debt fetch Exception:" . $e->getMessage());
+        }
+
+        return view('debts.index', compact('debts'))
+        ->with('i', ($request->input('page', 1) - 1) * 5);;
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(string $customerId)
     {
         $customer = ['Something went wrong'];
 
@@ -78,7 +106,7 @@ class DebtController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $customerId)
     {
         //
     }
