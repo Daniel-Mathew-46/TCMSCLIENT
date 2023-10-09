@@ -40,8 +40,6 @@ class DebtController extends Controller
             'reductionRate' => $request->input('reductionRate')
         ];
 
-        Log::info("Inputs::" . json_encode($inputs));
-
         $successStatus = 'Failed to assign debts.';
 
         try {
@@ -55,7 +53,7 @@ class DebtController extends Controller
                 $successStatus = 'Successfully assigned debt.';
             }
         } catch (\Exception $e) {
-            Log::info("Debt Assign Exception:" . $e->getMessage());
+            Log::error("Debt Assign Exception:" . $e->getMessage());
         }
 
         return redirect()->route('customers.index')->with('success', $successStatus);
@@ -74,11 +72,11 @@ class DebtController extends Controller
             $debts = Http::post('http://127.0.0.1:8000/api/meterdebt', ['meterId' => $meterId])['debt'];
             Log::info("Debt fetch response::" . json_encode($debts));
         } catch (\Exception $e) {
-            Log::info("Debt fetch Exception:" . $e->getMessage());
+            Log::error("Debt fetch Exception:" . $e->getMessage());
         }
 
         return view('debts.index', compact('debts'))
-        ->with('i', ($request->input('page', 1) - 1) * 5);;
+        ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -98,7 +96,7 @@ class DebtController extends Controller
             $customer = Http::post('http://127.0.0.1:8000/api/customerById', ['customerId' => $customerId])['Customer'];
             $meters = $customer['meters'];
         } catch (\Exception $e) {
-            Log::info("Customer Debt Show Exception:" . $e->getMessage());
+            Log::error("Customer Debt Show Exception:" . $e->getMessage());
         }
         return view('debts.edit', compact('customer', 'meters'));
     }

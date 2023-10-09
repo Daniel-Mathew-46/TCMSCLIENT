@@ -29,7 +29,8 @@
    <th>Tariff Value</th>
    <th width="280px">Action</th>
  </tr>
- @foreach ($tariffs as $key => $tariff)
+ @if (!empty($tariffs))
+  @foreach ($tariffs as $key => $tariff)
   <tr>
     <td>{{ ++$i }}</td>
     <td>{{ $tariff['name'] }}</td>
@@ -45,7 +46,10 @@
       @endcan
     </td>
   </tr>
- @endforeach
+  @endforeach
+ @else
+     
+ @endif
 </table>
 
 @endsection
