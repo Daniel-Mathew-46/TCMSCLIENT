@@ -30,7 +30,8 @@
    <th>Address</th>
    <th width="280px">Action</th>
  </tr>
- @foreach ($customers as $key => $customer)
+ 
+  @foreach ($customers as $key => $customer)
   <tr>
     <td>{{ ++$i }}</td>
     <td>{{ $customer['full_name'] }}</td>
@@ -41,12 +42,12 @@
         <a class="btn btn-info" href="{{ route('customers.show', $customer['id']) }}">Show</a>
       @endcan
       @can('customer-assigndebt')
-       <a class="btn btn-primary" href="{{ route('debts.edit', $customer['id']) }}">Assign Debt</a>
+        <a class="btn btn-primary" href="{{ route('debts.edit', $customer['id']) }}">Assign Debt</a>
       @endcan
-       {{-- <a class="btn btn-outline-secondary" href="{{ route('customer.payment', $customer['id']) }}">Bills</a> --}}
+        {{-- <a class="btn btn-outline-secondary" href="{{ route('customer.payment', $customer['id']) }}">Bills</a> --}}
     </td>
   </tr>
- @endforeach
+  @endforeach 
 </table>
 </div>
 @endsection

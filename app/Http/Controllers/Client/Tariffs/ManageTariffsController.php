@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class ManageTariffsController extends Controller
@@ -25,12 +26,11 @@ class ManageTariffsController extends Controller
      */
     public function index(Request $request): View
     {
-
+        // Request $request; 
         $tariffs = [];
-
         try {
-
-            $tariffs = Http::post('http://localhost:8000/api/tariffs')['tariffs'];
+            $tariffsData = Http::post('http://127.0.0.1:8000/api/tariffsByUtilityProvider', ["utility_provider_id" => Auth::user()->utility_provider_id])['Tariffs'];
+            $tariffs = $tariffsData[0]['tariffs'];
             Log::info("Tarrifs Message::" . json_encode($tariffs));
         } catch (\Exception $e) {
             log::channel('daily')->info("Tariffs Exception:" . $e->getMessage());

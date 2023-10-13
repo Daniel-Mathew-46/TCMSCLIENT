@@ -69,7 +69,8 @@ class ManageCustomersController extends Controller
         $this->validate($request, [
             'full_name' => 'required|string',
             'phone' => 'required|min:10|max:11',
-            'address' => 'required'
+            'address' => 'required',
+            'utility_provider_id' => 'required'
         ]);
 
         Log::info("Inputs::" . json_encode($request->all()));
@@ -78,6 +79,7 @@ class ManageCustomersController extends Controller
             'full_name' => $request->input('full_name'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
+            'utility_provider_id' => $request->input('utility_provider_id')
         ];
 
         $successStatus = 'Failed to register customer!';

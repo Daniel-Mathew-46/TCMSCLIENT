@@ -43,7 +43,14 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row mb-3" hidden>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="name">Utility Provider:</label> 
+                                    {!! Form::text('utility_provider_id', Auth::user()->utility_provider_id, array('placeholder' => 'Utility Provider','class' => 'form-control')) !!}
+                                </div>
+                            </div>
+                        </div>
                         <small class="agree-text">By clicking Register, you agree to our Terms & Conditions.</small>
                         <div class="row">
                             <div class="col-sm-6">

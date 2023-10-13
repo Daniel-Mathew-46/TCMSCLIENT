@@ -65,7 +65,7 @@
                                     <li><a class="nav-link" href="{{ route('customers.index') }}">Customers</a></li>
                                 @endif
                                 @if (str_contains(implode(', ', collect(Auth::user()->getAllPermissions())->pluck('name')->toArray()), 'tariff'))
-                                    <li><a class="nav-link" href="{{ route('tariffs.index') }}">Tariffs</a></li>
+                                    <li><a class="nav-link" href="{{ route('tariffs.index')}}">Tariffs</a></li>
                                 @endif
                             @else
                             @endif
