@@ -11,7 +11,7 @@ use App\Http\Controllers\Client\Tariffs\ManageTariffsController;
 use App\Http\Controllers\Client\Customers\ManageCustomersController;
 use App\Http\Controllers\Client\Debts\DebtController;
 use App\Http\Controllers\Client\UtilityProvider\ManageUtilityProviderController;
-use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryController;
+use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryController; 
 
 /*
 |--------------------------------------------------------------------------
