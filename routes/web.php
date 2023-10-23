@@ -25,7 +25,7 @@ use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryControlle
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view('tailhome');
 });
 
 Route::get('/admin', function () {
@@ -33,10 +33,9 @@ Route::get('/admin', function () {
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+     
 Auth::routes();
 
-// ['middleware' => ['auth']],
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('utility_providers', ManageUtilityProviderController::class);
     Route::resource('provider_categories', ManageProviderCategoryController::class);
