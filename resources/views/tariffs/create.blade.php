@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-12 col-md-12 text-center mt-2">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Create Tariff</button>
     </div>
 </div>
 {!! Form::close() !!}

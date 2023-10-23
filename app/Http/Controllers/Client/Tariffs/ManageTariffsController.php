@@ -69,7 +69,8 @@ class ManageTariffsController extends Controller
         $inputs = [
             'name' => $request->input('name'),
             'percentageAmount' => $request->input('percentageAmount'),
-            "value" => $request->input('value')
+            "value" => $request->input('value'),
+            "utility_provider_id" => Auth::user()->utility_provider_id
         ];
 
         $successStatus = 'Failed to create tariff';
