@@ -33,7 +33,7 @@ class UserController extends Controller
         $data = Http::post('http://localhost:8000/api/users')['users'];
 
         return view('users.index', compact('data'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+            ->with('i');
     }
 
     /**
@@ -87,14 +87,14 @@ class UserController extends Controller
 
         $successStatus = 'Failed to create UP User!';
 
-        try {
-            $message = Http::post('http://localhost:8000/api/user/create', $inputs)['message'];
-            Log::info("User response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'User created successfully!';
-            else $successStatus = $message[0];
-        } catch (\Exception $e) {
-            Log::info("UP User Create Exception:" . $e->getMessage());
-        }
+        // try {
+        //     $message = Http::post('http://localhost:8000/api/user/create', $inputs)['message'];
+        //     Log::info("User response message::" . json_encode($message));
+        //     if ($message[0] == 'OK') $successStatus = 'User created successfully!';
+        //     else $successStatus = $message[0];
+        // } catch (\Exception $e) {
+        //     Log::info("UP User Create Exception:" . $e->getMessage());
+        // }
 
         return redirect()->route('users.index')->with('success', $successStatus);
     }
@@ -160,7 +160,7 @@ class UserController extends Controller
             'full_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $userId,
             'phone_number' => 'required|min:10|max:11',
-            'password' => 'required|same:confirm-password',
+            'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
 
@@ -170,7 +170,8 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'phone_number' => $request->input('phone_number'),
             'password' => $request->input('password'),
-            'roles' => $request->input('roles')
+            'utility_provider_id' => $request->input('utility_provider_id'),
+            'roles' => $request->input('roles'),
         ];
 
         if (!empty($inputs['password'])) {
