@@ -11,7 +11,7 @@ use App\Http\Controllers\Client\Tariffs\ManageTariffsController;
 use App\Http\Controllers\Client\Customers\ManageCustomersController;
 use App\Http\Controllers\Client\Debts\DebtController;
 use App\Http\Controllers\Client\UtilityProvider\ManageUtilityProviderController;
-use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryController; 
+use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,16 +24,9 @@ use App\Http\Controllers\Client\ProviderCategory\ManageProviderCategoryControlle
 |
 */
 
-Route::get('/', function () {
-    return view('tailhome');
-});
 
-Route::get('/admin', function () {
-    return view('home');
-});
+Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-     
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
@@ -46,4 +39,3 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
 });
-

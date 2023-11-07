@@ -40,23 +40,21 @@ class DebtController extends Controller
             'reductionRate' => $request->input('reductionRate')
         ];
 
-        $successStatus = 'Failed to assign debts.';
-
+        $debtsArray = [];
+        $debtResponse = [];
         try {
             $debtResponse = Http::post('http://127.0.0.1:8000/api/assigndebt', $inputs);
-            //['message'];
             $debtsArray = json_decode($debtResponse, true);
-
-            if (array_key_exists('message', $debtsArray)){
-                $successStatus = $debtResponse['message'][0];
-            } else {
-                $successStatus = 'Successfully assigned debt.';
-            }
         } catch (\Exception $e) {
             Log::error("Debt Assign Exception:" . $e->getMessage());
+            return redirect()->route('customers.index')->with('error', 'Failed to assign debts.Something went wrong.');
         }
 
-        return redirect()->route('customers.index')->with('success', $successStatus);
+        if (array_key_exists('message', $debtsArray)){
+            return redirect()->route('customers.index')->with('error', $debtResponse['message'][0]);
+        } else {
+            return redirect()->route('customers.index')->with('success', 'Successfully assigned debt.');
+        }
     }
 
     /**

@@ -12,9 +12,9 @@ class ManageUtilityProviderController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:provider-list|provider-create|provider-edit|provider-show', ['only' => ['index','store']]);
-        $this->middleware('permission:provider-create', ['only' => ['create','store']]);
-        $this->middleware('permission:provider-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:provider-list|provider-create|provider-edit|provider-show', ['only' => ['index', 'store']]);
+        $this->middleware('permission:provider-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:provider-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:provider-show', ['only' => ['show']]);
     }
 
@@ -76,18 +76,16 @@ class ManageUtilityProviderController extends Controller
             "provider_categories_id" => $request->input('provider_categories_id')
         ];
 
-        $successStatus = 'Failed to create utility service provider';
+        $message = ['Failed to create utility service provider'];
 
         try {
             $message = Http::post('http://localhost:8000/api/utilityProvider', $inputs)['message'];
-            Log::info("Utility Provider response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully created utility service provider!';
-            else $successStatus = $message[0];
         } catch (\Exception $e) {
             Log::info("Utility Provider Register Exception:" . $e->getMessage());
         }
 
-        return redirect()->route('utility_providers.index')->with('success', $successStatus);
+        if ($message[0] == 'OK') return redirect()->route('utility_providers.index')->with('success', 'Utility provider created successfully!');
+        else return redirect()->route('utility_providers.index')->with('error', $message[0]);
     }
 
     /**
@@ -138,7 +136,6 @@ class ManageUtilityProviderController extends Controller
         try {
 
             $providerCategories = Http::post('http://localhost:8000/api/listProviderCategories')['providerCategories'];
-            
         } catch (\Exception $e) {
             Log::info("Provider Categories Exception:" . $e->getMessage());
         }
@@ -171,17 +168,15 @@ class ManageUtilityProviderController extends Controller
             "provider_categories_id" => $request->input('provider_categories_id')
         ];
 
-        $successStatus = 'Failed to update utility service provider';
+        $message = ['Failed to update utility service provider'];
 
         try {
             $message = Http::patch('http://localhost:8000/api/utilityProvider', $inputs)['message'];
-            Log::info("Utility Provider response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully created utility service provider!';
-            else $successStatus = $message[0];
         } catch (\Exception $e) {
             Log::info("Utility Provider Update Exception:" . $e->getMessage());
         }
 
-        return redirect()->route('utility_providers.index')->with('success', $successStatus);
+        if ($message[0] == 'OK') return redirect()->route('utility_providers.index')->with('success', 'Utility provider updated successfully!');
+        else return redirect()->route('utility_providers.index')->with('error', $message[0]);
     }
 }

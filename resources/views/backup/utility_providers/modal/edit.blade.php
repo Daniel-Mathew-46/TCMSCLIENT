@@ -2,7 +2,7 @@
 <div class="hidden overflow-x-hidden overflow-y-auto fixed top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center h-modal sm:h-full" id="edit-up-modal{{$provider['id']}}">
     <div class="relative w-full max-w-2xl px-4 h-full md:h-auto">
         <!-- Modal content -->
-        <div class="bg-white rounded-lg shadow relative">
+        <div class="bg-white rounded-lg shadow relative dark:bg-gray-800 dark:text-white">
             <!-- Modal header -->
             <div class="flex items-start justify-between p-5 border-b rounded-t">
                 <h3 class="text-xl font-semibold">
@@ -17,16 +17,16 @@
                 <form action="#">
                     <div class="grid grid-cols-6 gap-6 mb-2">
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="provider-name" class="text-sm font-medium text-gray-900 block mb-2">Provider Name</label>
-                            <input type="text" name="provider-name" id="provider-name" value="{{$provider['provider_name']}}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" >
+                            <label for="provider-name" class="text-sm font-medium text-gray-900 block mb-2 dark:text-white">Provider Name</label>
+                            <input type="text" name="provider-name" id="provider-name" value="{{$provider['provider_name']}}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" >
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="provider-code" class="text-sm font-medium text-gray-900 block mb-2">Provider Code</label>
-                            <input type="text" name="provider-code" id="provider-code" value="{{ $provider['provider_code'] }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" >
+                            <label for="provider-code" class="text-sm font-medium text-gray-900 block mb-2 dark:text-white">Provider Code</label>
+                            <input type="text" name="provider-code" id="provider-code" value="{{ $provider['provider_code'] }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" >
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <label for="phone-number" class="text-sm font-medium text-gray-900 block mb-2">Provider Status</label>
-                            <input type="text" name="provider-status" id="provider-status" value="{{ $provider['provider_status'] }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" >
+                            <label for="phone-number" class="text-sm font-medium text-gray-900 block mb-2 dark:text-white">Provider Status</label>
+                            <input type="text" name="provider-status" id="provider-status" value="{{ $provider['provider_status'] }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white" >
                         </div>
                     </div> 
                     <!-- Modal footer -->
@@ -37,7 +37,7 @@
             </div>
         </div>
     </div>
-    <script>
+    {{-- <script>
         async function fetchRoles() {
             try {
                 const response = await fetch('http://127.0.0.1:8000/api/utilityProvidersWithNoUsers');
@@ -57,5 +57,5 @@
                 this.showModal = true;
             }
         }));
-    </script>
+    </script> --}}
 </div>
