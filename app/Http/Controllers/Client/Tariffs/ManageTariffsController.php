@@ -31,9 +31,8 @@ class ManageTariffsController extends Controller
         try {
             $tariffsData = Http::post('http://127.0.0.1:8000/api/tariffsByUtilityProvider', ["utility_provider_id" => Auth::user()->utility_provider_id])['Tariffs'];
             $tariffs = $tariffsData[0]['tariffs'];
-            Log::info("Tarrifs Message::" . json_encode($tariffs));
         } catch (\Exception $e) {
-            log::channel('daily')->info("Tariffs Exception:" . $e->getMessage());
+            log::channel('daily')->error("Tariffs Exception:" . $e->getMessage());
         }
 
         return view('tariffs.index', compact('tariffs'))
@@ -73,18 +72,16 @@ class ManageTariffsController extends Controller
             "utility_provider_id" => Auth::user()->utility_provider_id
         ];
 
-        $successStatus = 'Failed to create tariff';
+        $message = ['Failed to create tariff'];
 
         try {
             $message = Http::post('http://localhost:8000/api/tariff', $inputs)['message'];
-            Log::info("Tariff response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully created tariff!';
-            else $successStatus = $message[0];
         } catch (\Exception $e) {
-            Log::info("Tariff Register Exception:" . $e->getMessage());
+            Log::error("Tariff Register Exception:" . $e->getMessage());
         }
 
-        return redirect()->route('tariffs.index')->with('success', $successStatus);
+        if ($message[0] == 'OK') return redirect()->route('tariffs.index')->with('success', 'Tariff created successfully!');
+        else return redirect()->route('tariffs.index')->with('error', $message[0]);
     }
 
     /**
@@ -98,15 +95,12 @@ class ManageTariffsController extends Controller
 
         $tariff = ['Something went wrong'];
 
-        Log::info("Parameter::" . $tariffId);
-
         try {
 
             $tariff = Http::post('http://localhost:8000/api/tariffById', ['id' => $tariffId])['Tariff'];
 
-            Log::info("Utility Provider response message::" . json_encode($tariff));
         } catch (\Exception $e) {
-            Log::info("Utility Provider Show Exception:" . $e->getMessage());
+            Log::error("Utility Provider Show Exception:" . $e->getMessage());
         }
         return view('tariffs.show', compact('tariff'));
     }
@@ -121,12 +115,12 @@ class ManageTariffsController extends Controller
     {
         $tariff = ['Something went wrong'];
 
-        Log::info("Parameter::" . $tariffId);
+        // Log::info("Parameter::" . $tariffId);
 
         try {
             $tariff = Http::post('http://localhost:8000/api/tariffById', ['id' => $tariffId])['Tariff'];
         } catch (\Exception $e) {
-            Log::info("Utility Provider Show Exception:" . $e->getMessage());
+            Log::error("Utility Provider Show Exception:" . $e->getMessage());
         }
         return view('tariffs.edit', compact('tariff'));
     }
@@ -140,9 +134,9 @@ class ManageTariffsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Log::info("Inputs Tariffs Update::" . json_encode($request->all()));
         $this->validate($request, [
             'name' => 'required',
-            'code' => 'required',
             'percentageAmount' => 'required',
             "value" => 'required'
         ]);
@@ -150,25 +144,20 @@ class ManageTariffsController extends Controller
         $inputs = [
             'id' => $id,
             'name' => $request->input('name'),
-            'code' => $request->input('code'),
             'percentageAmount' => $request->input('percentageAmount'),
             "value" => $request->input('value')
         ];
 
-        Log::info("Inputs::" . json_encode($inputs));
-
-        $successStatus = 'Failed to update tariff';
+        $message = ['Failed to update tariff'];
 
         try {
             $message = Http::patch('http://localhost:8000/api/tariff', $inputs)['message'];
-            Log::info("Tariff response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully updated tariff!';
-            else $successStatus = $message[0];
         } catch (\Exception $e) {
-            Log::info("Tariff Update Exception:" . $e->getMessage());
+            Log::error("Tariff Update Exception:" . $e->getMessage());
         }
 
-        return redirect()->route('tariffs.index')->with('success', $successStatus);
+        if ($message[0] == 'OK') return redirect()->route('tariffs.index')->with('success', 'Tariff updated successfully!');
+        else return redirect()->route('tariffs.index')->with('error', $message[0]);
     }
 }
 

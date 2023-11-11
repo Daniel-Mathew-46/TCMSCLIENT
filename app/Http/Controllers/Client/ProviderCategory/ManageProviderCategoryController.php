@@ -30,9 +30,10 @@ class ManageProviderCategoryController extends Controller
         try {
 
             $provider_categories = Http::post('http://localhost:8000/api/listProviderCategories')['providerCategories'];
-            Log::info("Provider Categories Message::" . json_encode($provider_categories));
+            
         } catch (\Exception $e) {
-            log::channel('daily')->info("UtilityProviderException:" . $e->getMessage());
+
+            log::channel('daily')->info("ProviderCategories Client Exception:" . $e->getMessage());
         }
 
         return view('provider_categories.index', compact('provider_categories'))
@@ -59,28 +60,21 @@ class ManageProviderCategoryController extends Controller
     {
         $this->validate($request, [
             'prov_categ_name' => 'required',
-            // 'prov_categ_code' => 'required',
         ]);
-
-        Log::info("Inputs::" . json_encode($request->all()));
 
         $inputs = [
             'prov_categ_name' => $request->input('prov_categ_name'),
-            // 'prov_categ_code' => $request->input('prov_categ_code'),
         ];
 
-        $successStatus = 'Failed to create provider category';
+        $message = ['Failed to create provider category.'];
 
         try {
             $message = Http::post('http://localhost:8000/api/registerProviderCategory', $inputs)['message'];
-            Log::info("Utility Provider response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully created provider category!';
-            else $successStatus = $message[0];
         } catch (\Exception $e) {
             Log::info("Provider Category Register Exception:" . $e->getMessage());
         }
-
-        return redirect()->route('provider_categories.index')->with('success', $successStatus);
+        if ($message[0] == 'OK') return redirect()->route('provider_categories.index')->with('success', 'Provider Category created successfully!');
+        else return redirect()->route('provider_categories.index')->with('error', $message[0]);
     }
 
     /**
@@ -91,19 +85,13 @@ class ManageProviderCategoryController extends Controller
      */
     public function show(Request $request, $providerCategoryId)
     {
-        // $providerCode = $request->input('providerCode');
 
         $providerCategory = ['Something went wrong'];
 
-        Log::info("Parameter::" . $providerCategoryId);
-
         try {
-
             $providerCategory = Http::post('http://localhost:8000/api/listProviderCategory', ['providerCategoryId' => $providerCategoryId])['providerCategory'];
-
-            Log::info("Provider Category response message::" . json_encode($providerCategory));
         } catch (\Exception $e) {
-            Log::info("Provider Category Show Exception:" . $e->getMessage());
+            Log::error("Provider Category Show Exception:" . $e->getMessage());
         }
         return view('provider_categories.show', compact('providerCategory'));
     }

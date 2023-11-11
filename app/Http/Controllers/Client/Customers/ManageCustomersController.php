@@ -82,18 +82,16 @@ class ManageCustomersController extends Controller
             'utility_provider_id' => $request->input('utility_provider_id')
         ];
 
-        $successStatus = 'Failed to register customer!';
+        $message = ['Failed to register customer.'];
 
         try {
             $message = Http::post('http://127.0.0.1:8000/api/customer/create', $inputs)['message'];
-            Log::info("Customer Register response message::" . json_encode($message));
-            if ($message[0] == 'OK') $successStatus = 'Successfully registered customer!';
-            else $successStatus = $message[0];
         } catch (\Exception $e) {
             Log::info("Customer Register Exception:" . $e->getMessage());
         }
 
-        return redirect()->route('customers.index')->with('success', $successStatus);
+        if ($message[0] == 'OK') return redirect()->route('customers.index')->with('success', 'Customer registered successfully.');
+        else return redirect()->route('customers.index')->with('error', $message[0]);
     }
 
     /**
