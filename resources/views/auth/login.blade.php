@@ -38,10 +38,9 @@
                     @enderror
                 </div>
                 <div class="flex items-start">
-                    <a href="#" class="ml-auto text-sm text-blue-700 hover:underline dark:text-primary-500">Forgot Password?</a>
+                    <a href="{{ route('password.request') }}" class="ml-auto text-sm text-blue-700 hover:underline dark:text-primary-500">Forgot Password?</a>
                 </div>
                 <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign in</button>
-                
             </form>
         </div>
     </div>
