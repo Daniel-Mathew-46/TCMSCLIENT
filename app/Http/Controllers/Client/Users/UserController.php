@@ -80,13 +80,10 @@ class UserController extends Controller
             'roles' => [$request->input('roles')]
         ];
 
-        Log::info("Inputs::" . json_encode($inputs));
-
         $message = ['Failed to create UP User!'];
 
         try {
             $message = Http::post('http://localhost:8000/api/user/create', $inputs)['message'];
-            Log::info("User response message::" . json_encode($message));
         } catch (\Exception $e) {
             Log::error("UP User Create Exception:" . $e->getMessage());
         }
@@ -103,8 +100,6 @@ class UserController extends Controller
     public function show($userId): View
     {
         $user = ['Something went wrong'];
-
-        Log::info("Parameter::" . $userId);
 
         try {
             $user = Http::post('http://localhost:8000/api/user/show', ['userId' => $userId])['user'];
@@ -209,9 +204,8 @@ class UserController extends Controller
 
         try {
             $message = Http::post('http://localhost:8000/api/user/update', $inputs)['message'];
-            Log::info("User Update response message::" . json_encode($message));
         } catch (\Exception $e) {
-            Log::info("UP User Update Exception:" . $e->getMessage());
+            Log::error("UP User Update Exception:" . $e->getMessage());
         }
 
         if ($message[0] == 'OK') return redirect()->route('users.index')->with('success', 'User updated successfully!');
