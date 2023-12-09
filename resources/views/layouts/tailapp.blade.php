@@ -21,7 +21,7 @@
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center">
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                    Token and Customer Management System 
+                    Token and Customer Management System
                     {{-- @if ($message = Session::get('utilityProvider')) --}}
                     @if ($value = session('utilityProvider'))
                     <span class=" italic rounded p-1 border-gray-600 dark:border-gray-100 bg-transparent border-2 text-sm">
@@ -111,7 +111,7 @@
                             </li>
                         @endif
                     @endif
-                    
+
                 </ul>
             </div>
         </div>

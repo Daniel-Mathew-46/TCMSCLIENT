@@ -29,6 +29,8 @@ Route::get('/', [HomeController::class, 'index']);
 
 Auth::routes();
 
+Route::post('users/updatepassword', [UserController::class, 'updatePassword'])->name('users.updatePassword');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('utility_providers', ManageUtilityProviderController::class);
     Route::resource('provider_categories', ManageProviderCategoryController::class);

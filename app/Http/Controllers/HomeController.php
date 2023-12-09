@@ -36,17 +36,17 @@ class HomeController extends Controller
         // $chart = $usersChart->build();
         if ($userRole === "utility provider") {
             $dashboardDataUtilityProvider = [
-                "customers" => $dashboardData['customersNo'],
-                "customersList" => $dashboardData['customersList'],
+                'customers' => $dashboardData['customersNo'],
+                'customersList' => $dashboardData['customersList'],
                 'numberOfTokens' => $dashboardData['numberOfTokens'],
                 'totalDebtAmount' => $dashboardData['totalDebtAmount']
             ];
             return view('tailhome', compact('dashboardDataUtilityProvider', 'chart'));
         } else {
             $dashboardDataAdmin = [
-                "providerCategory" => $dashboardData['providerCategoryNo'],
-                "utilityProvider" => $dashboardData['utilityProviderNo'],
-                "utilityProviderList" => $dashboardData['utilityProviderList'],
+                'providerCategory' => $dashboardData['providerCategoryNo'],
+                'utilityProvider' => $dashboardData['utilityProviderNo'],
+                'utilityProviderList' => $dashboardData['utilityProviderList']
             ];
             return view('tailhome', compact('dashboardDataAdmin', 'chart'));
         }

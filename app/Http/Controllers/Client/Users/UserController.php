@@ -222,4 +222,35 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * Update user password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(Request $request){
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'same:password_confirm',
+            'password_confirm' => 'required',
+        ]);
+
+        $inputs = [
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password'))
+        ];
+
+        $message = ['Failed to update password'];
+
+        try {
+            $message = Http::patch('http://localhost:8000/api/user/updatepassword', $inputs)['message'];
+        }catch (\Exception $e) {
+            Log::error("password Update Exception:" . $e->getMessage());
+        }
+
+
+        if ($message[0] == 'OK') return ;
+    }
 }
