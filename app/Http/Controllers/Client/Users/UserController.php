@@ -251,6 +251,7 @@ class UserController extends Controller
         }
 
 
-        if ($message[0] == 'OK') return ;
+        if ($message[0] == 'OK')  return redirect('/login')->with('success', 'Password reset successfully. Please log in.');
+        else return redirect()->route('/login')->with('error', 'Password reset Failed');
     }
 }
